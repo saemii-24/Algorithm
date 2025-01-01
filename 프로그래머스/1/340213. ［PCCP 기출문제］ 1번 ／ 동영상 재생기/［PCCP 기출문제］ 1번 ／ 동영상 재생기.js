@@ -1,10 +1,5 @@
 function solution(video_len, pos, op_start, op_end, commands) {
-    let [nLen, nPos, nStart, nEnd] = [
-        changeTime(video_len), 
-        changeTime(pos),
-        changeTime(op_start),
-        changeTime(op_end),
-    ];
+    let [nLen, nPos, nStart, nEnd] = [video_len, pos, op_start, op_end].map((item)=>changeTime(item))
 
     for (let command of commands) {
         if (nPos >= nStart && nPos <= nEnd) nPos = nEnd;
@@ -18,7 +13,6 @@ function solution(video_len, pos, op_start, op_end, commands) {
     }
 
     let [min, sec] = [Math.floor(nPos / 60), nPos % 60];
-
     sec = sec === 0 ? "00" : sec.toString().padStart(2, '0');
 
     return min.toString().padStart(2, '0') + ":" + sec;
