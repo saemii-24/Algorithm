@@ -1,20 +1,17 @@
 function solution(N, stages) {
-    let obj = {};
-    for (let i = 1; i <= N + 1; i++) obj[i] = 0;
-    for (let stage of stages) obj[stage] = (obj[stage] || 0) + 1; 
+  //사용자들의 스테이지 누적 현황
+  let success = new Array(N+1).fill(0); //현재 도전중 + 최종완료한 사람 
 
-    let fail = []; 
-    let remainingPlayers = stages.length
-
-    for (let i = 1; i <= N; i++) {
-        let stoppedPlayers = obj[i];
-        let failRate = remainingPlayers === 0 ? 0 : stoppedPlayers / remainingPlayers;
-        
-        fail.push([i, failRate]);
-        remainingPlayers -= stoppedPlayers;
+  for (let stage of stages) {
+    for (let i = 0; i <= stage-1; i++) {
+      success[i] += 1;
     }
+  }
 
-    fail.sort((a, b) => b[1] - a[1] || a[0] - b[0]);
-
-    return fail.map(([stage]) => stage);
+  let result = [];
+  for (let i = 0; i < N; i++) {
+    let fail = (success[i]-success[i+1]) / success[i]
+    fail ? result.push([fail, i+1]) : result.push([0, i+1]);
+  }
+  return result.sort((a,b)=>b[0]-a[0]).map(item=>Number(item[1]));
 }
