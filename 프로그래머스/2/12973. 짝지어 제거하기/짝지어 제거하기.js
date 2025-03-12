@@ -1,11 +1,11 @@
 function solution(s) {
     let stack = [];
-    for (let alphabet of s) {
-        if (stack.length > 0 && stack[stack.length - 1] === alphabet) {
+    for (let str of s) {
+        if (stack.length > 0 && stack[stack.length - 1] === str) {
             stack.pop();
         } else {
-            stack.push(alphabet);
+            stack.push(str);
         }
     }
-    return stack.length === 0 ? 1 : 0;
+    return stack.length > 0 ? 0 : 1;
 }
