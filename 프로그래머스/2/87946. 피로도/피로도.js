@@ -1,21 +1,20 @@
 function solution(k, dungeons) {
-  let visited = new Array(dungeons.length).fill(false);
-  let maxCount = 0;
+    let maxTurn = 0;
+    let visited = Array(dungeons.length).fill(false);
 
-  function dfs(cur, count) {
-    if (count > maxCount) {
-      maxCount = count;
+    function dfs(hp, count) {
+        maxTurn = Math.max(maxTurn, count);
+        
+        for (let i = 0; i < dungeons.length; i++) {
+            let [minHp, cost] = dungeons[i];
+            if (!visited[i] && hp >= minHp) {
+                visited[i] = true;
+                dfs(hp - cost, count + 1);
+                visited[i] = false; 
+            }
+        }
     }
 
-    for (let i = 0; i < dungeons.length; i++) {
-      if (!visited[i] && dungeons[i][0] <= cur) {
-        visited[i] = true;
-        dfs(cur - dungeons[i][1], count + 1);
-        visited[i] = false;
-      }
-    }
-  }
-
-  dfs(k, 0);
-  return maxCount;
+    dfs(k, 0);
+    return maxTurn;
 }
